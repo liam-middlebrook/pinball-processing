@@ -18,7 +18,7 @@ void setup()
   // We are setting a custom gravity
   box2d.setGravity(0, -10);
  
-  ball = new Ball(10.0f, new Vec2(125, 0));
+  ball = new Ball(15.0f, new Vec2(125, 0));
   wall = new Wall(new Vec2(25,300), new Vec2(200, 10));
 }
 
