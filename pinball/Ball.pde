@@ -1,4 +1,4 @@
-class Ball
+class Ball extends Drawable
 {
   // Box2D body
   Body pBody; 
@@ -31,6 +31,8 @@ class Ball
 
   void render()
   {
+    super.render();
+    
     Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
 
     float angle = this.pBody.getAngle();

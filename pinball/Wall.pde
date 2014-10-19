@@ -1,4 +1,4 @@
-class Wall
+class Wall extends Drawable
 {
   // Box2D body
   Body pBody; 
@@ -53,6 +53,10 @@ class Wall
 
   void render()
   {
+    // Since we're using a PShape we can't just call fill and stroke
+    pShape.setFill(fillColor);
+    pShape.setStroke(strokeColor);
+    
     pushMatrix();
     translate(position.x, position.y);
     shape(pShape);

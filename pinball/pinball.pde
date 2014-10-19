@@ -21,6 +21,7 @@ void setup()
   box2d.setGravity(0, -10);
  
   ball = new Ball(15.0f, new Vec2(125, 0));
+  ball.fillColor = color(255, 0, 0);
 
   wallList = new ArrayList<Wall>();  
   
@@ -30,14 +31,16 @@ void setup()
   vertices[2] = new Vec2(280,50);
   vertices[3] = new Vec2(120,10);
   
-  wallList.add(new Wall(new Vec2(20,50), vertices));
+  Wall wallToAdd = new Wall(new Vec2(20,50), vertices);
+  wallToAdd.fillColor = color(255, 255, 0);
+  wallToAdd.strokeColor = color(255, 0, 255);
+  wallList.add(wallToAdd);
 }
 
 void draw()
 {
   // Update physics world
   background(100, 149, 237); 
-  fill(255);
   box2d.step();
   ball.render();
   
