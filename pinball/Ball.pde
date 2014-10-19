@@ -3,15 +3,15 @@ class Ball
   // Box2D body
   Body pBody; 
 
-  float radius;
+  float diameter;
 
-  Ball(float radius, Vec2 position)
+  Ball(float diameter, Vec2 position)
   {
-    this.radius = radius;
+    this.diameter = diameter;
 
     // Create circle shape
     CircleShape shape = new CircleShape();
-    shape.m_radius = box2d.scalarPixelsToWorld(radius/2);
+    shape.m_radius = box2d.scalarPixelsToWorld(diameter/2);
 
     // Create circle fixture
     FixtureDef fixture = new FixtureDef();
@@ -38,7 +38,8 @@ class Ball
     pushMatrix();
     translate(ballPos.x, ballPos.y);
     rotate(-angle);
-    ellipse(0, 0, radius, radius);
+    ellipse(0, 0, diameter, diameter);
+    line(0, 0, 0, diameter/2);
     popMatrix();
   }
 }
