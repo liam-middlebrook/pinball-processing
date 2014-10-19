@@ -6,7 +6,9 @@ import org.jbox2d.dynamics.*;
 Box2DProcessing box2d;
 
 Ball ball;
-Wall wall;
+
+ArrayList<Wall> wallList;
+
 void setup()
 {
   size(640, 480, P2D);
@@ -19,13 +21,16 @@ void setup()
   box2d.setGravity(0, -10);
  
   ball = new Ball(15.0f, new Vec2(125, 0));
+
+  wallList = new ArrayList<Wall>();  
   
-    Vec2[] vertices = new Vec2[4];
-    vertices[0] = new Vec2(0,0);
-    vertices[1] = new Vec2(150,100);
-    vertices[2] = new Vec2(280,50);
-    vertices[3] = new Vec2(120,10);
-    wall = new Wall(new Vec2(20,50), vertices);
+  Vec2[] vertices = new Vec2[4];
+  vertices[0] = new Vec2(0,0);
+  vertices[1] = new Vec2(150,100);
+  vertices[2] = new Vec2(280,50);
+  vertices[3] = new Vec2(120,10);
+  
+  wallList.add(new Wall(new Vec2(20,50), vertices));
 }
 
 void draw()
@@ -35,5 +40,9 @@ void draw()
   fill(255);
   box2d.step();
   ball.render();
-  wall.render();
+  
+  for(Wall w : wallList)
+  {
+    w.render(); 
+  }
 }
