@@ -32,7 +32,7 @@ class Ball extends Drawable
   void render()
   {
     super.render();
-    
+
     Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
 
     float angle = this.pBody.getAngle();
