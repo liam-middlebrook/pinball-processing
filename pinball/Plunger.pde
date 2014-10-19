@@ -38,7 +38,7 @@ class Plunger extends Drawable
     // Define physics body
     BodyDef baseBodyDef = new BodyDef();
     baseBodyDef.type = BodyType.STATIC;
-    baseBodyDef.position.set(box2d.coordPixelsToWorld(new Vec2(position.x, position.y + 200)));
+    baseBodyDef.position.set(box2d.coordPixelsToWorld(new Vec2(position.x, position.y + 60)));
     baseBodyDef.setFixedRotation(true);
 
     // Add body to world
