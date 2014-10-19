@@ -9,7 +9,7 @@ Ball ball;
 Wall wall;
 void setup()
 {
-  size(640, 480);
+  size(640, 480, P2D);
   
   // Init box2d world
   box2d = new Box2DProcessing (this);
@@ -19,7 +19,13 @@ void setup()
   box2d.setGravity(0, -10);
  
   ball = new Ball(15.0f, new Vec2(125, 0));
-  wall = new Wall(new Vec2(25,300), new Vec2(200, 10));
+  
+    Vec2[] vertices = new Vec2[4];
+    vertices[0] = new Vec2(0,0);
+    vertices[1] = new Vec2(150,100);
+    vertices[2] = new Vec2(280,50);
+    vertices[3] = new Vec2(120,10);
+    wall = new Wall(new Vec2(20,50), vertices);
 }
 
 void draw()
