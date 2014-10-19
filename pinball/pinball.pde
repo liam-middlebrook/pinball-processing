@@ -45,7 +45,7 @@ void draw()
   {
     w.render();
   }
-  plunger.render(); 
+  plunger.render();
 }
 
 void keyPressed()
@@ -54,7 +54,7 @@ void keyPressed()
   if (key == ' ')
   {
     plunger.pullPlunger();
-  } 
+  }
 }
 void addWalls()
 {

@@ -44,7 +44,7 @@ class Plunger extends Drawable
     // Add body to world
     this.baseBody = box2d.createBody(baseBodyDef);
     this.baseBody.createFixture(baseShape, 1);
-    
+
     // Create spring joint
     DistanceJointDef springJoint = new DistanceJointDef();
     springJoint.frequencyHz = 4;
@@ -72,7 +72,7 @@ class Plunger extends Drawable
   }
   void pullPlunger()
   {
-      headBody.applyForce(new Vec2(0, -1000000), headBody.getPosition());
+    headBody.applyForce(new Vec2(0, -1000000), headBody.getPosition());
   }
 }
 
