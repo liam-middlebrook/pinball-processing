@@ -7,7 +7,7 @@ class Plunger extends Drawable
 
   Plunger(Vec2 position)
   {
-    this.width = 30;
+    this.width = 45;
     this.height = 10;
 
     // Create shape
@@ -44,12 +44,14 @@ class Plunger extends Drawable
     // Add body to world
     this.baseBody = box2d.createBody(baseBodyDef);
     this.baseBody.createFixture(baseShape, 1);
+    
+    // Create spring joint
     DistanceJointDef springJoint = new DistanceJointDef();
-
     springJoint.frequencyHz = 4;
     springJoint.dampingRatio = 0.1;
     springJoint.collideConnected = true;
 
+    // add spring joint to world
     springJoint.initialize(headBody, baseBody, headBody.getPosition(), baseBody.getPosition());
     box2d.createJoint(springJoint);
   }
@@ -68,11 +70,9 @@ class Plunger extends Drawable
     rect(0, 0, width, height);
     popMatrix();
   }
-  void applyForce()
+  void pullPlunger()
   {
-   
       headBody.applyForce(new Vec2(0, -1000000), headBody.getPosition());
-    
   }
 }
 

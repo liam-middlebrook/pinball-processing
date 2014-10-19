@@ -50,11 +50,10 @@ void draw()
 
 void keyPressed()
 {
- 
+  // space activates plunger
   if (key == ' ')
   {
-    print("pressed space");
-    plunger.applyForce();
+    plunger.pullPlunger();
   } 
 }
 void addWalls()
@@ -82,10 +81,21 @@ void addWalls()
   wallToAdd.strokeColor = color(0);
   wallList.add(wallToAdd);
 
+  vertices = new Vec2[4];
+  vertices[0] = new Vec2(300, 0);
+  vertices[1] = new Vec2(325, 10);
+  vertices[2] = new Vec2(400, 80);
+  vertices[3] = new Vec2(400, 0);
+
+  wallToAdd = new Wall(new Vec2(200, 0), vertices);
+  wallToAdd.fillColor = color(255);
+  wallToAdd.strokeColor = color(0);
+  wallList.add(wallToAdd);
+
   vertices = new Vec2[3];
-  vertices[0] = new Vec2(0, 0);
-  vertices[1] = new Vec2(110, 60);
-  vertices[2] = new Vec2(400, 0);
+  vertices[0] = new Vec2(000, 0);
+  vertices[1] = new Vec2(200, 50);
+  vertices[2] = new Vec2(300, 0);
 
   wallToAdd = new Wall(new Vec2(200, 0), vertices);
   wallToAdd.fillColor = color(255);
