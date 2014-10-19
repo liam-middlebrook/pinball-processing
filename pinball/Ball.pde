@@ -11,7 +11,7 @@ class Ball
     
     // Create circle shape
     CircleShape shape = new CircleShape();
-    shape.m_radius = radius;
+    shape.m_radius = box2d.scalarPixelsToWorld(radius);
     
     // Create circle fixture
     FixtureDef fixture = new FixtureDef();
@@ -24,18 +24,18 @@ class Ball
     bodyDef.position.set(box2d.coordPixelsToWorld(position));
     
     // Add body to world
-    pBody = box2d.createBody(bodyDef);
-    pBody.createFixture(fixture);
+    this.pBody = box2d.createBody(bodyDef);
+    this.pBody.createFixture(fixture);
   }
   
-  void drawBall()
+  void render()
   {
-    Vec2 ballPos = box2d.getBodyPixelCoord(pBody);
+    this.pBody.setAwake(true);
+    Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
    
-    float angle = pBody.getAngle();
+    float angle = this.pBody.getAngle();
    
     pushMatrix();
-    println(ballPos.x + " " + ballPos.y);
     translate(ballPos.x, ballPos.y);
     rotate(-angle);
     ellipse(0, 0, radius, radius);
