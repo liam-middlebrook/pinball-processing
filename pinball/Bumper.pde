@@ -1,16 +1,21 @@
-class Wall extends Drawable
+class Bumper extends Drawable
 {
   // Box2D body
   Body pBody; 
   PShape pShape;
 
-  // Position in processing coords
-  Vec2 position;
-
-  Wall(Vec2 position, Vec2[] vertices)
+  Bumper(Vec2 position, float radius)
   {
     // Create shape
     PolygonShape shape = new PolygonShape();
+
+    Vec2[] vertices = new Vec2[8];
+    float angleStep = PI/4;
+    for(int i = 0; i < 8; i++)
+    {
+      vertices[i] = new Vec2(radius * cos(angleStep*i), radius * sin(angleStep*i)); 
+    }
+
 
     // Create an array to temporarily store the box2D vertex coordinates
     Vec2[] box2DVertices = new Vec2[vertices.length];
@@ -46,9 +51,6 @@ class Wall extends Drawable
     // Add body to world
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(shape, 1);
-
-    // Store the screen position for later
-    this.position = position;
     
     // set the callback data to this instance
     this.pBody.setUserData(this);
@@ -60,10 +62,19 @@ class Wall extends Drawable
     pShape.setFill(fillColor);
     pShape.setStroke(strokeColor);
 
+    Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
+
+    float angle = this.pBody.getAngle();
+    
     pushMatrix();
-    translate(position.x, position.y);
+    translate(ballPos.x, ballPos.y);
+    rotate(-angle);
     shape(pShape);
     popMatrix();
+  }
+  void collide(Ball ball)
+  {
+    ball.bumpAway(5); 
   }
 }
 

@@ -27,6 +27,10 @@ class Ball extends Drawable
     // Add body to world
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(fixture);
+    this.pBody.isBullet();
+    
+    // set the callback data to this instance
+    this.pBody.setUserData(this);
   }
 
   void render()
@@ -43,6 +47,11 @@ class Ball extends Drawable
     ellipse(0, 0, diameter, diameter);
     line(0, 0, 0, diameter/2);
     popMatrix();
+  }
+  void bumpAway(float amount)
+  {
+    Vec2 pushForce = this.pBody.getLinearVelocity().mul(-amount);
+    this.pBody.applyLinearImpulse(pushForce, this.pBody.getPosition(), true);
   }
 }
 

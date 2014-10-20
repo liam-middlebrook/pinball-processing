@@ -1,16 +1,20 @@
-class Wall extends Drawable
+class Flipper extends Drawable
 {
   // Box2D body
   Body pBody; 
   PShape pShape;
 
-  // Position in processing coords
-  Vec2 position;
-
-  Wall(Vec2 position, Vec2[] vertices)
+  Flipper(Vec2 position)
   {
     // Create shape
     PolygonShape shape = new PolygonShape();
+
+    Vec2[] vertices = new Vec2[4];
+    vertices[0] = new Vec2(0, 0);
+    vertices[1] = new Vec2(0, 10);
+    vertices[2] = new Vec2(50, 10);
+    vertices[3] = new Vec2(50, 0);
+
 
     // Create an array to temporarily store the box2D vertex coordinates
     Vec2[] box2DVertices = new Vec2[vertices.length];
@@ -40,15 +44,12 @@ class Wall extends Drawable
 
     // Define physics body
     BodyDef bodyDef = new BodyDef();
-    bodyDef.type = BodyType.STATIC;
+    bodyDef.type = BodyType.DYNAMIC;
     bodyDef.position.set(box2d.coordPixelsToWorld(position));
 
     // Add body to world
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(shape, 1);
-
-    // Store the screen position for later
-    this.position = position;
     
     // set the callback data to this instance
     this.pBody.setUserData(this);
@@ -60,10 +61,19 @@ class Wall extends Drawable
     pShape.setFill(fillColor);
     pShape.setStroke(strokeColor);
 
+    Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
+
+    float angle = this.pBody.getAngle();
+    
     pushMatrix();
-    translate(position.x, position.y);
+    translate(ballPos.x, ballPos.y);
+    rotate(-angle);
     shape(pShape);
     popMatrix();
+  }
+  void flip()
+  {
+    this.pBody.applyTorque(2000); 
   }
 }
 

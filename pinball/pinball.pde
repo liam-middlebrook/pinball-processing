@@ -1,8 +1,11 @@
 import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.*;
+import org.jbox2d.callbacks.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
+import org.jbox2d.dynamics.contacts.*;
 
 Box2DProcessing box2d;
 
@@ -12,6 +15,9 @@ ArrayList<Wall> wallList;
 
 Plunger plunger;
 
+Flipper flipper;
+
+ArrayList<Bumper> bumperList;
 void setup()
 {
   size(600, 800, P2D);
@@ -19,10 +25,13 @@ void setup()
 
   // Init box2d world
   box2d = new Box2DProcessing (this);
-
   box2d.createWorld();
+
   // We are setting a custom gravity
   box2d.setGravity(0, -10);
+
+  // Start listening for collisions
+  box2d.listenForCollisions();
 
   ball = new Ball(15.0f, new Vec2(550, 100));
   ball.fillColor = color(255, 0, 0);
@@ -31,7 +40,13 @@ void setup()
 
   plunger = new Plunger(new Vec2( 550, 650));
 
+  flipper = new Flipper(new Vec2( 300, 600));
+  flipper.fillColor = color(255, 0, 0);
+
+  bumperList = new ArrayList<Bumper>();
+
   addWalls();
+  addBumpers();
 }
 
 void draw()
@@ -45,8 +60,58 @@ void draw()
   {
     w.render();
   }
+  
+  
+  for (Bumper b : bumperList)
+  {
+    b.render();
+  }
   plunger.render();
+  flipper.render();
 }
+
+void beginContact(Contact c)
+{
+  // Detect collisions for objects
+
+  // Get the colliding fixtures
+  Fixture f1 = c.getFixtureA();
+  Fixture f2 = c.getFixtureB();
+
+  // Get the bodies of each fixture
+  Body b1 = f1.getBody();
+  Body b2 = f2.getBody();
+
+  // Get the objects that the bodies are from
+  Object o1 = b1.getUserData();
+  Object o2 = b2.getUserData();
+
+  // If either object is null return
+  if (o1 == null || o2 == null)
+  {
+    return;
+  }
+
+  if (o1 instanceof Bumper && o2 instanceof Ball) 
+  {
+    Bumper bumper = (Bumper)o1;
+    Ball ball = (Ball)o2;
+
+    bumper.fillColor = color(0);
+    bumper.collide(ball);
+  } else if (o1 instanceof Ball && o2 instanceof Bumper) 
+  {
+    Bumper bumper = (Bumper)o2;
+    Ball ball = (Ball)o1;
+
+    bumper.fillColor = color(0);
+    bumper.collide(ball);
+  }
+}
+void endContact(Contact c)
+{
+}
+
 
 void keyPressed()
 {
@@ -54,6 +119,10 @@ void keyPressed()
   if (key == ' ')
   {
     plunger.pullPlunger();
+  }
+  if (key == 'a')
+  {
+    flipper.flip();
   }
 }
 void addWalls()
@@ -124,4 +193,17 @@ void addWalls()
   wallToAdd.strokeColor = color(0);
   wallList.add(wallToAdd);
 }
-
+void addBumpers()
+{ 
+  Bumper bumper = new Bumper(new Vec2( 150, 700), 50);
+  bumper.fillColor = color(255, 0, 0);
+  bumperList.add(bumper);
+  
+  bumper = new Bumper(new Vec2( 250, 700), 50);
+  bumper.fillColor = color(255, 0, 0);
+  bumperList.add(bumper);
+  
+  bumper = new Bumper(new Vec2( 350, 700), 50);
+  bumper.fillColor = color(255, 0, 0);
+  bumperList.add(bumper);
+}
