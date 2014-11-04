@@ -97,5 +97,8 @@ class Bumper extends Drawable
 
     // Run the new thread
     resetBumper.start();
+    
+    // Add to Player Score
+    playerScore += 10;
   }
 }

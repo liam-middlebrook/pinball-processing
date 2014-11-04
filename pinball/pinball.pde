@@ -19,6 +19,8 @@ Flipper flipper;
 
 ArrayList<Bumper> bumperList;
 
+int playerScore;
+
 void setup()
 {
   size(600, 800, P2D);
@@ -69,6 +71,8 @@ void draw()
   }
   plunger.render();
   flipper.render();
+  fill(0);
+  text("Score: " + playerScore, 5, 15);
 }
 
 void beginContact(Contact c)
