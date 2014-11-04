@@ -18,6 +18,7 @@ Plunger plunger;
 Flipper flipper;
 
 ArrayList<Bumper> bumperList;
+
 void setup()
 {
   size(600, 800, P2D);
@@ -97,15 +98,13 @@ void beginContact(Contact c)
     Bumper bumper = (Bumper)o1;
     Ball ball = (Ball)o2;
 
-    bumper.fillColor = color(0);
-    bumper.collide(ball);
+    bumper.collide(ball, color(0));
   } else if (o1 instanceof Ball && o2 instanceof Bumper) 
   {
     Bumper bumper = (Bumper)o2;
     Ball ball = (Ball)o1;
 
-    bumper.fillColor = color(0);
-    bumper.collide(ball);
+    bumper.collide(ball, color(0));
   }
 }
 void endContact(Contact c)
@@ -205,5 +204,9 @@ void addBumpers()
   
   bumper = new Bumper(new Vec2( 350, 700), 50);
   bumper.fillColor = color(255, 0, 0);
+  bumperList.add(bumper);
+
+  bumper = new Bumper(new Vec2( 250, 350), 25);
+  bumper.fillColor = color(0, 0, 255);
   bumperList.add(bumper);
 }

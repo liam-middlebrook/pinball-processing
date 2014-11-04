@@ -3,6 +3,7 @@ class Bumper extends Drawable
   // Box2D body
   Body pBody; 
   PShape pShape;
+  color resetColor;
 
   Bumper(Vec2 position, float radius)
   {
@@ -72,9 +73,29 @@ class Bumper extends Drawable
     shape(pShape);
     popMatrix();
   }
-  void collide(Ball ball)
+  void collide(Ball ball, color ballColor)
   {
+    // Physically bump the ball away
     ball.bumpAway(5); 
+
+    // Store the current color
+    this.resetColor = fillColor;
+
+    // Change the current color
+    this.fillColor = ballColor;
+
+    // Create a new thread
+    Thread resetBumper = new Thread() {
+      @Override
+      public void run() {
+        // Wait one second and change
+        // The color back to it's original color
+        delay(1000);
+        fillColor = resetColor;
+      }
+    };
+
+    // Run the new thread
+    resetBumper.start();
   }
 }
-
