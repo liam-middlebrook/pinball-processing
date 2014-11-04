@@ -54,8 +54,8 @@ class Plunger extends Drawable
     // add spring joint to world
     springJoint.initialize(headBody, baseBody, headBody.getPosition(), baseBody.getPosition());
     box2d.createJoint(springJoint);
-    
-    
+
+
     // set the callback data to this instance
     this.headBody.setUserData(this);
     this.baseBody.setUserData(this);

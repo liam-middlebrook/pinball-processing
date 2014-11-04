@@ -49,7 +49,7 @@ class Wall extends Drawable
 
     // Store the screen position for later
     this.position = position;
-    
+
     // set the callback data to this instance
     this.pBody.setUserData(this);
   }

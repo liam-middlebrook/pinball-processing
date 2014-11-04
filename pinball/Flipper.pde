@@ -50,7 +50,7 @@ class Flipper extends Drawable
     // Add body to world
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(shape, 1);
-    
+
     // set the callback data to this instance
     this.pBody.setUserData(this);
   }
@@ -64,7 +64,7 @@ class Flipper extends Drawable
     Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
 
     float angle = this.pBody.getAngle();
-    
+
     pushMatrix();
     translate(ballPos.x, ballPos.y);
     rotate(-angle);
@@ -73,7 +73,7 @@ class Flipper extends Drawable
   }
   void flip()
   {
-    this.pBody.applyTorque(2000); 
+    this.pBody.applyTorque(2000);
   }
 }
 

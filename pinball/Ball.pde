@@ -28,7 +28,7 @@ class Ball extends Drawable
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(fixture);
     this.pBody.isBullet();
-    
+
     // set the callback data to this instance
     this.pBody.setUserData(this);
   }

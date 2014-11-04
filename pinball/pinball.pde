@@ -63,8 +63,8 @@ void draw()
   {
     w.render();
   }
-  
-  
+
+
   for (Bumper b : bumperList)
   {
     b.render();
@@ -201,11 +201,11 @@ void addBumpers()
   Bumper bumper = new Bumper(new Vec2( 150, 700), 50);
   bumper.fillColor = color(255, 0, 0);
   bumperList.add(bumper);
-  
+
   bumper = new Bumper(new Vec2( 250, 700), 50);
   bumper.fillColor = color(0, 255, 0);
   bumperList.add(bumper);
-  
+
   bumper = new Bumper(new Vec2( 350, 700), 50);
   bumper.fillColor = color(255, 255, 0);
   bumperList.add(bumper);
@@ -214,3 +214,4 @@ void addBumpers()
   bumper.fillColor = color(0, 0, 255);
   bumperList.add(bumper);
 }
+

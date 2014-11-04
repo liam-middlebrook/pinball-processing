@@ -12,9 +12,9 @@ class Bumper extends Drawable
 
     Vec2[] vertices = new Vec2[8];
     float angleStep = PI/4;
-    for(int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
-      vertices[i] = new Vec2(radius * cos(angleStep*i), radius * sin(angleStep*i)); 
+      vertices[i] = new Vec2(radius * cos(angleStep*i), radius * sin(angleStep*i));
     }
 
 
@@ -52,7 +52,7 @@ class Bumper extends Drawable
     // Add body to world
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(shape, 1);
-    
+
     // set the callback data to this instance
     this.pBody.setUserData(this);
   }
@@ -66,7 +66,7 @@ class Bumper extends Drawable
     Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
 
     float angle = this.pBody.getAngle();
-    
+
     pushMatrix();
     translate(ballPos.x, ballPos.y);
     rotate(-angle);
@@ -87,7 +87,7 @@ class Bumper extends Drawable
     // Create a new thread
     Thread resetBumper = new Thread() {
       @Override
-      public void run() {
+        public void run() {
         // Wait one second and change
         // The color back to it's original color
         delay(1000);
@@ -97,8 +97,9 @@ class Bumper extends Drawable
 
     // Run the new thread
     resetBumper.start();
-    
+
     // Add to Player Score
     playerScore += 10;
   }
 }
+
