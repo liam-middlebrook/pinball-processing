@@ -85,9 +85,11 @@ class Bumper extends Drawable
     this.fillColor = ballColor;
 
     // Create a new thread
-    Thread resetBumper = new Thread() {
+    Thread resetBumper = new Thread()
+    {
       @Override
-        public void run() {
+      public void run()
+      {
         // Wait one second and change
         // The color back to it's original color
         delay(1000);
