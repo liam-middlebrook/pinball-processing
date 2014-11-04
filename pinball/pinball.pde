@@ -71,6 +71,8 @@ void draw()
   }
   plunger.render();
   flipper.render();
+
+  // Set fill to black and draw score
   fill(0);
   text("Score: " + playerScore, 5, 15);
 }
@@ -111,8 +113,10 @@ void beginContact(Contact c)
     bumper.collide(ball, color(0));
   }
 }
+
 void endContact(Contact c)
 {
+  // End contact method stub
 }
 
 
