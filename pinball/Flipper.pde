@@ -3,18 +3,30 @@ class Flipper extends Drawable
   // Box2D body
   Body pBody; 
   PShape pShape;
+  boolean leftFlipper;
 
-  Flipper(Vec2 position)
+  Flipper(Vec2 position, boolean leftFlipper)
   {
+    this.leftFlipper = leftFlipper;
+
     // Create shape
     PolygonShape shape = new PolygonShape();
 
     Vec2[] vertices = new Vec2[4];
-    vertices[0] = new Vec2(0, 0);
-    vertices[1] = new Vec2(0, 20);
-    vertices[2] = new Vec2(100, 12);
-    vertices[3] = new Vec2(100, 8);
 
+    if (leftFlipper)
+    {
+      vertices[0] = new Vec2(0, 0);
+      vertices[1] = new Vec2(0, 20);
+      vertices[2] = new Vec2(100, 12);
+      vertices[3] = new Vec2(100, 8);
+    } else
+    {
+      vertices[0] = new Vec2(0, 12);
+      vertices[1] = new Vec2(0, 8);
+      vertices[2] = new Vec2(100, 0);
+      vertices[3] = new Vec2(100, 20);
+    }
 
     // Create an array to temporarily store the box2D vertex coordinates
     Vec2[] box2DVertices = new Vec2[vertices.length];
@@ -72,8 +84,13 @@ class Flipper extends Drawable
     rotationJoint.collideConnected = false;
 
     // Set rotation origin
-    rotationJoint.localAnchorA = new Vec2(0.0, -0.5);
-
+    if (leftFlipper)
+    {
+      rotationJoint.localAnchorA = new Vec2(0.0, -0.5);
+    } else
+    {
+      rotationJoint.localAnchorA = new Vec2(10.0, -0.5);
+    }
     rotationJoint.enableLimit = true;
     rotationJoint.lowerAngle = radians(-45);
     rotationJoint.upperAngle = radians(45);
@@ -99,9 +116,12 @@ class Flipper extends Drawable
     shape(pShape);
     popMatrix();
   }
-  void flip(float amt)
+  void flip(float amt, boolean isLeftFlipper)
   {
-    this.pBody.applyTorque(amt);
+    if (isLeftFlipper == leftFlipper)
+    {
+      this.pBody.applyTorque(amt * (leftFlipper ? 1 : -1));
+    }
   }
 }
 
