@@ -77,7 +77,7 @@ class Plunger extends Drawable
   }
   void pullPlunger()
   {
-    headBody.applyForce(new Vec2(0, -1000000), headBody.getPosition());
+    headBody.applyForce(new Vec2(0, -10000), headBody.getPosition());
   }
 }
 
