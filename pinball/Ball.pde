@@ -48,9 +48,10 @@ class Ball extends Drawable
     line(0, 0, 0, diameter/2);
     popMatrix();
   }
-  void bumpAway(float amount)
+  void bumpAway(float amount, Vec2 normal)
   {
-    Vec2 pushForce = this.pBody.getLinearVelocity().mul(-amount);
+    normal.normalize();
+    Vec2 pushForce = normal.mul(-amount);
     this.pBody.applyLinearImpulse(pushForce, this.pBody.getPosition(), true);
   }
 }

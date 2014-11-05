@@ -11,9 +11,9 @@ class Flipper extends Drawable
 
     Vec2[] vertices = new Vec2[4];
     vertices[0] = new Vec2(0, 0);
-    vertices[1] = new Vec2(0, 10);
-    vertices[2] = new Vec2(50, 10);
-    vertices[3] = new Vec2(50, 0);
+    vertices[1] = new Vec2(0, 20);
+    vertices[2] = new Vec2(100, 12);
+    vertices[3] = new Vec2(100, 8);
 
 
     // Create an array to temporarily store the box2D vertex coordinates
@@ -49,7 +49,7 @@ class Flipper extends Drawable
 
     // Add body to world
     this.pBody = box2d.createBody(bodyDef);
-    this.pBody.createFixture(shape, 1);
+    this.pBody.createFixture(shape, 10);
 
 
     // Create base
@@ -99,9 +99,9 @@ class Flipper extends Drawable
     shape(pShape);
     popMatrix();
   }
-  void flip()
+  void flip(float amt)
   {
-    this.pBody.applyTorque(50000);
+    this.pBody.applyTorque(amt);
   }
 }
 

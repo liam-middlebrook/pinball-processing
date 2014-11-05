@@ -43,7 +43,7 @@ void setup()
 
   plunger = new Plunger(new Vec2( 550, 650));
 
-  flipper = new Flipper(new Vec2( 300, 600));
+  flipper = new Flipper(new Vec2( 300, 550));
   flipper.fillColor = color(255, 0, 0);
 
   bumperList = new ArrayList<Bumper>();
@@ -99,18 +99,22 @@ void beginContact(Contact c)
     return;
   }
 
+
+  // Get Contact Manifold (for normal)
+  Manifold m = c.getManifold();
+
   if (o1 instanceof Bumper && o2 instanceof Ball) 
   {
     Bumper bumper = (Bumper)o1;
     Ball ball = (Ball)o2;
 
-    bumper.collide(ball, color(0));
+    bumper.collide(ball, color(0), m.localNormal);
   } else if (o1 instanceof Ball && o2 instanceof Bumper) 
   {
     Bumper bumper = (Bumper)o2;
     Ball ball = (Ball)o1;
 
-    bumper.collide(ball, color(0));
+    bumper.collide(ball, color(0), m.localNormal);
   }
 }
 
@@ -127,9 +131,9 @@ void keyPressed()
   {
     plunger.pullPlunger();
   }
-  if (key == 'a')
+  if (keyCode == SHIFT)
   {
-    flipper.flip();
+    flipper.flip(50000000);
   }
 }
 void addWalls()

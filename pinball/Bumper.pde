@@ -73,10 +73,10 @@ class Bumper extends Drawable
     shape(pShape);
     popMatrix();
   }
-  void collide(Ball ball, color ballColor)
+  void collide(Ball ball, color ballColor, Vec2 normal)
   {
     // Physically bump the ball away
-    ball.bumpAway(5); 
+    ball.bumpAway(100, normal); 
 
     // Store the current color
     this.resetColor = fillColor;
@@ -92,7 +92,7 @@ class Bumper extends Drawable
       {
         // Wait one second and change
         // The color back to it's original color
-        delay(1000);
+        delay(50);
         fillColor = resetColor;
       }
     };
