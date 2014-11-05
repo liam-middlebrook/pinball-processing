@@ -212,7 +212,7 @@ void keyPressed()
   {
     for (Flipper f : flipperList)
     {
-      f.flip(1000000);
+      f.flip(10000000);
     }
   }
 }
