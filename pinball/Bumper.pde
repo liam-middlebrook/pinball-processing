@@ -18,7 +18,6 @@ class Bumper extends Drawable
       vertices[i] = new Vec2(radius * cos(angleStep*i), radius * sin(angleStep*i));
     }
 
-
     // Create an array to temporarily store the box2D vertex coordinates
     Vec2[] box2DVertices = new Vec2[vertices.length];
 

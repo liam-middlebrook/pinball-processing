@@ -1,3 +1,8 @@
+// Requires the following libraries:
+// Box2D For Processing
+// Beads
+// GameControlPlus
+
 import shiffman.box2d.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.collision.Manifold;
@@ -42,11 +47,9 @@ boolean lostGame;
 
 void setup()
 {
-
-
+  // Create the window
   size(600, 800, P2D);
   smooth();
-
 
   // Initialise the ControlIO
   control = ControlIO.getInstance(this);
@@ -54,6 +57,7 @@ void setup()
   // Find a device that matches the configuration file
   gpad = control.getMatchedDevice("gamepad_pinball");
 
+  // Verify controller is setup
   if (gpad == null)
   {
     println("No suitable device configured");
@@ -160,12 +164,12 @@ void drawGame()
   {
     w.render();
   }
-
-
+  
   for (Bumper b : bumperList)
   {
     b.render();
   }
+  
   plunger.render();
 
   for (Flipper f : flipperList)
@@ -196,7 +200,6 @@ void beginContact(Contact c)
     return;
   }
 
-
   // Get Contact Manifold (for normal)
   Manifold m = c.getManifold();
 
@@ -223,18 +226,23 @@ void endContact(Contact c)
 
 void userInput()
 {
-  // space activates plunger
+  // Check if plunger button on gamepad is pressed
+  // or if the spacebar is pressed
   if (gpad.getButton("PLUNGER").pressed() || (keyPressed && key == ' ' ))
   {
     if (!lostGame)
     {
+      // If the player is still in game pull the plunger
       plunger.pullPlunger();
     } else
     {
+      // If the player has lost the game restart it
       lostGame = false;
       ballCount = 5;
     }
   }
+  
+  // If the left bumper has been pressed (or the Z key) activate the left flipper
   if ((keyPressed && (key == 'z' || key == 'Z')) || gpad.getButton("BUMPER_LEFT").pressed())
   {
     for (Flipper f : flipperList)
@@ -242,6 +250,8 @@ void userInput()
       f.flip(100000, true);
     }
   }
+  
+  // If the right bumper has been pressed (or the (/-?) key) activate the right flipper
   if ((keyPressed && (key == '/' || key == '?')) || gpad.getButton("BUMPER_RIGHT").pressed())
   {
     for (Flipper f : flipperList)
@@ -250,6 +260,7 @@ void userInput()
     }
   }
 }
+
 void addWalls()
 {
   Vec2[] vertices = new Vec2[4];
@@ -318,6 +329,7 @@ void addWalls()
   wallToAdd.strokeColor = color(0);
   wallList.add(wallToAdd);
 }
+
 void addBumpers()
 { 
   Bumper bumper = new Bumper(new Vec2( 150, 200), 50);
@@ -336,6 +348,7 @@ void addBumpers()
   bumper.fillColor = color(0, 0, 255);
   bumperList.add(bumper);
 }
+
 void addFlippers()
 {
   Flipper flipper = new Flipper(new Vec2( 100, 550), true);
