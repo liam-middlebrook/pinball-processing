@@ -57,13 +57,6 @@ void setup()
   // Find a device that matches the configuration file
   gpad = control.getMatchedDevice("gamepad_pinball");
 
-  // Verify controller is setup
-  if (gpad == null)
-  {
-    println("No suitable device configured");
-    exit(); // End the program NOW!
-  }
-
   // Init box2d world
   box2d = new Box2DProcessing (this);
   box2d.createWorld();
@@ -228,7 +221,7 @@ void userInput()
 {
   // Check if plunger button on gamepad is pressed
   // or if the spacebar is pressed
-  if (gpad.getButton("PLUNGER").pressed() || (keyPressed && key == ' ' ))
+  if ((keyPressed && key == ' ' ) || (gpad == null && gpad.getButton("PLUNGER").pressed()))
   {
     if (!lostGame)
     {
@@ -243,7 +236,7 @@ void userInput()
   }
   
   // If the left bumper has been pressed (or the Z key) activate the left flipper
-  if ((keyPressed && (key == 'z' || key == 'Z')) || gpad.getButton("BUMPER_LEFT").pressed())
+  if ((keyPressed && (key == 'z' || key == 'Z')) || (gpad == null && gpad.getButton("BUMPER_LEFT").pressed()))
   {
     for (Flipper f : flipperList)
     {
@@ -252,7 +245,7 @@ void userInput()
   }
   
   // If the right bumper has been pressed (or the (/-?) key) activate the right flipper
-  if ((keyPressed && (key == '/' || key == '?')) || gpad.getButton("BUMPER_RIGHT").pressed())
+  if ((keyPressed && (key == '/' || key == '?')) || (gpad == null && gpad.getButton("BUMPER_RIGHT").pressed()))
   {
     for (Flipper f : flipperList)
     {
