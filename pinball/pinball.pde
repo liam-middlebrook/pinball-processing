@@ -8,10 +8,19 @@ import org.jbox2d.dynamics.joints.*;
 import org.jbox2d.dynamics.contacts.*;
 import beads.*;
 
+import org.gamecontrolplus.gui.*;
+import org.gamecontrolplus.*;
+import net.java.games.input.*;
+
 AudioContext ac;
 SamplePlayer dingSound;
 Gain gain;
 Glide gainValue;
+
+// Gamepad controls
+ControlIO control;
+Configuration config;
+ControlDevice gpad;
 
 Box2DProcessing box2d;
 
@@ -33,8 +42,23 @@ boolean lostGame;
 
 void setup()
 {
+
+
   size(600, 800, P2D);
   smooth();
+
+
+  // Initialise the ControlIO
+  control = ControlIO.getInstance(this);
+
+  // Find a device that matches the configuration file
+  gpad = control.getMatchedDevice("gamepad_pinball");
+
+  if (gpad == null)
+  {
+    println("No suitable device configured");
+    exit(); // End the program NOW!
+  }
 
   // Init box2d world
   box2d = new Box2DProcessing (this);
@@ -94,7 +118,10 @@ void setup()
 
 void draw()
 {
-  background(100, 149, 237); 
+  background(100, 149, 237);
+
+  userInput();
+
   if (!lostGame)
   {
     drawGame();
@@ -194,10 +221,10 @@ void endContact(Contact c)
 }
 
 
-void keyPressed()
+void userInput()
 {
   // space activates plunger
-  if (key == ' ')
+  if (gpad.getButton("PLUNGER").pressed() || (keyPressed && key == ' ' ))
   {
     if (!lostGame)
     {
@@ -208,11 +235,18 @@ void keyPressed()
       ballCount = 5;
     }
   }
-  if (keyCode == SHIFT)
+  if ((keyPressed && (key == 'z' || key == 'Z')) || gpad.getButton("BUMPER_LEFT").pressed())
   {
     for (Flipper f : flipperList)
     {
-      f.flip(10000000);
+      f.flip(100000, true);
+    }
+  }
+  if ((keyPressed && (key == '/' || key == '?')) || gpad.getButton("BUMPER_RIGHT").pressed())
+  {
+    for (Flipper f : flipperList)
+    {
+      f.flip(100000, false);
     }
   }
 }
@@ -304,11 +338,11 @@ void addBumpers()
 }
 void addFlippers()
 {
-  Flipper flipper = new Flipper(new Vec2( 100, 550));
+  Flipper flipper = new Flipper(new Vec2( 100, 550), true);
   flipper.fillColor = color(255, 0, 0);
   flipperList.add(flipper);
 
-  flipper = new Flipper(new Vec2( 300, 550));
+  flipper = new Flipper(new Vec2( 410, 550), false);
   flipper.fillColor = color(255, 0, 0);
   flipperList.add(flipper);
 }

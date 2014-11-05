@@ -1,0 +1,4 @@
+Pinball Controller
+PLUNGER	Plunger Button	1	BUTTON	Button 0	0	0.0	0.0
+BUMPER_LEFT	Bumper Button	1	BUTTON	Button 4	0	0.0	0.0
+BUMPER_RIGHT	Bumper Button	1	BUTTON	Button 5	0	0.0	0.0
