@@ -51,6 +51,34 @@ class Flipper extends Drawable
     this.pBody = box2d.createBody(bodyDef);
     this.pBody.createFixture(shape, 1);
 
+
+    // Create base
+    PolygonShape baseShape = new PolygonShape();
+    baseShape.setAsBox(1, 1);
+
+    // Define physics body
+    BodyDef baseBodyDef = new BodyDef();
+    baseBodyDef.type = BodyType.STATIC;
+    baseBodyDef.position.set(box2d.coordPixelsToWorld(new Vec2(position.x, position.y)));
+    baseBodyDef.setFixedRotation(true);
+
+    // Add body to world
+    Body baseBody = box2d.createBody(baseBodyDef);
+    baseBody.createFixture(baseShape, 1);
+
+    RevoluteJointDef rotationJoint = new RevoluteJointDef();
+    rotationJoint.bodyA = pBody;
+    rotationJoint.bodyB = baseBody;
+    rotationJoint.collideConnected = false;
+
+    // Set rotation origin
+    rotationJoint.localAnchorA = new Vec2(0.0, -0.5);
+
+    rotationJoint.enableLimit = true;
+    rotationJoint.lowerAngle = radians(-45);
+    rotationJoint.upperAngle = radians(45);
+
+    box2d.createJoint(rotationJoint);
     // set the callback data to this instance
     this.pBody.setUserData(this);
   }
@@ -73,7 +101,7 @@ class Flipper extends Drawable
   }
   void flip()
   {
-    this.pBody.applyTorque(2000);
+    this.pBody.applyTorque(50000);
   }
 }
 
