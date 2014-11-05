@@ -104,6 +104,15 @@ class Bumper extends Drawable
       // Change the current color
       this.fillColor = ballColor;
 
+      // Set volume to max
+      gainValue.setValue(1.0f);
+
+      // Reset the scrubber on the sound to start position
+      dingSound.setToLoopStart();
+
+      // Play the ding sound!
+      dingSound.start();
+
       // Run the new thread
       resetBumper.start();
     }

@@ -6,6 +6,12 @@ import org.jbox2d.callbacks.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 import org.jbox2d.dynamics.contacts.*;
+import beads.*;
+
+AudioContext ac;
+SamplePlayer dingSound;
+Gain gain;
+Glide gainValue;
 
 Box2DProcessing box2d;
 
@@ -39,6 +45,37 @@ void setup()
 
   // Start listening for collisions
   box2d.listenForCollisions();
+
+  // Instantiate the new audio context
+  ac = new AudioContext();
+
+  // Attempt to load the ding sound
+  // If it doesn't load exit the program
+  try
+  {
+    dingSound = new SamplePlayer(ac, new Sample(sketchPath("") + "buzzer.wav"));
+  }
+  catch(Exception ex)
+  {
+    ex.printStackTrace();
+    exit();
+  }
+
+  // The sound is used more than once
+  dingSound.setKillOnEnd(false);
+
+  // Create a gain for volume control
+  gainValue = new Glide(ac, 0.0, 20);
+  gain = new Gain(ac, 1, gainValue);
+
+  // Set gain to allow dingSound for input
+  gain.addInput(dingSound);
+
+  // Set gain to be an audio output
+  ac.out.addInput(gain);
+
+  // Start the AudioContext
+  ac.start();
 
   ball = new Ball(15.0f, new Vec2(550, 100));
   ball.fillColor = color(255, 0, 0);
@@ -162,14 +199,13 @@ void keyPressed()
   // space activates plunger
   if (key == ' ')
   {
-    if(!lostGame)
+    if (!lostGame)
     {
-    plunger.pullPlunger();
-    }
-    else
+      plunger.pullPlunger();
+    } else
     {
       lostGame = false;
-      ballCount = 5; 
+      ballCount = 5;
     }
   }
   if (keyCode == SHIFT)
