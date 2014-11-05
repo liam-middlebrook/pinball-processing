@@ -5,8 +5,12 @@ class Ball extends Drawable
 
   float diameter;
 
+  Vec2 startPos;
+
   Ball(float diameter, Vec2 position)
   {
+    --ballCount;
+    this.startPos = position;
     this.diameter = diameter;
 
     // Create circle shape
@@ -53,6 +57,12 @@ class Ball extends Drawable
     normal.normalize();
     Vec2 pushForce = normal.mul(-amount);
     this.pBody.applyLinearImpulse(pushForce, this.pBody.getPosition(), true);
+  }
+  boolean offScreen()
+  {
+    Vec2 ballPos = box2d.getBodyPixelCoord(this.pBody);
+
+    return ballPos.y > height;
   }
 }
 

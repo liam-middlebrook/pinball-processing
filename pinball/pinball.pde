@@ -15,11 +15,15 @@ ArrayList<Wall> wallList;
 
 Plunger plunger;
 
-Flipper flipper;
+ArrayList<Flipper> flipperList;
 
 ArrayList<Bumper> bumperList;
 
 int playerScore;
+
+int ballCount = 5;
+
+boolean lostGame;
 
 void setup()
 {
@@ -43,21 +47,50 @@ void setup()
 
   plunger = new Plunger(new Vec2( 550, 650));
 
-  flipper = new Flipper(new Vec2( 300, 550));
-  flipper.fillColor = color(255, 0, 0);
-
+  flipperList = new ArrayList<Flipper>();
   bumperList = new ArrayList<Bumper>();
 
   addWalls();
   addBumpers();
+  addFlippers();
 }
 
 void draw()
 {
-  // Update physics world
   background(100, 149, 237); 
+  if (!lostGame)
+  {
+    drawGame();
+
+    // Set fill to black and draw score
+    fill(0);
+    text("Score: " + playerScore, 5, 15);
+    text("Balls Left: " + ballCount, 5, 30);
+  } else
+  {
+    // Set fill to black and draw score
+    fill(0);
+    text("Score: " + playerScore, 5, 15);
+    text("Game Over: Press Spacebar to Restart", 5, 30);
+  }
+}
+void drawGame()
+{
+  // Update physics world
   box2d.step();
   ball.render();
+
+  if (ball.offScreen())
+  {
+    if ( ballCount > 0)
+    {
+      ball = new Ball(15.0f, new Vec2(550, 100));
+      ball.fillColor = color(255, 0, 0);
+    } else
+    {
+      lostGame = true;
+    }
+  }
 
   for (Wall w : wallList)
   {
@@ -70,11 +103,11 @@ void draw()
     b.render();
   }
   plunger.render();
-  flipper.render();
 
-  // Set fill to black and draw score
-  fill(0);
-  text("Score: " + playerScore, 5, 15);
+  for (Flipper f : flipperList)
+  {
+    f.render();
+  }
 }
 
 void beginContact(Contact c)
@@ -129,11 +162,22 @@ void keyPressed()
   // space activates plunger
   if (key == ' ')
   {
+    if(!lostGame)
+    {
     plunger.pullPlunger();
+    }
+    else
+    {
+      lostGame = false;
+      ballCount = 5; 
+    }
   }
   if (keyCode == SHIFT)
   {
-    flipper.flip(1000000);
+    for (Flipper f : flipperList)
+    {
+      f.flip(1000000);
+    }
   }
 }
 void addWalls()
@@ -206,11 +250,11 @@ void addWalls()
 }
 void addBumpers()
 { 
-  Bumper bumper = new Bumper(new Vec2( 150, 700), 50);
+  Bumper bumper = new Bumper(new Vec2( 150, 200), 50);
   bumper.fillColor = color(255, 0, 0);
   bumperList.add(bumper);
 
-  bumper = new Bumper(new Vec2( 250, 700), 50);
+  bumper = new Bumper(new Vec2( 300, 300), 50);
   bumper.fillColor = color(0, 255, 0);
   bumperList.add(bumper);
 
@@ -221,5 +265,15 @@ void addBumpers()
   bumper = new Bumper(new Vec2( 250, 350), 25);
   bumper.fillColor = color(0, 0, 255);
   bumperList.add(bumper);
+}
+void addFlippers()
+{
+  Flipper flipper = new Flipper(new Vec2( 100, 550));
+  flipper.fillColor = color(255, 0, 0);
+  flipperList.add(flipper);
+
+  flipper = new Flipper(new Vec2( 300, 550));
+  flipper.fillColor = color(255, 0, 0);
+  flipperList.add(flipper);
 }
 
