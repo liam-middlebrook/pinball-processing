@@ -4,6 +4,7 @@ class Bumper extends Drawable
   Body pBody; 
   PShape pShape;
   color resetColor;
+  boolean inThread;
 
   Bumper(Vec2 position, float radius)
   {
@@ -78,27 +79,34 @@ class Bumper extends Drawable
     // Physically bump the ball away
     ball.bumpAway(100, normal); 
 
-    // Store the current color
-    this.resetColor = fillColor;
-
-    // Change the current color
-    this.fillColor = ballColor;
 
     // Create a new thread
     Thread resetBumper = new Thread()
     {
       @Override
-      public void run()
+        public void run()
       {
         // Wait one second and change
         // The color back to it's original color
-        delay(50);
+        delay(250);
         fillColor = resetColor;
+        inThread = false;
       }
     };
 
-    // Run the new thread
-    resetBumper.start();
+    if (!inThread)
+    {
+      inThread = true;
+
+      // Store the current color
+      this.resetColor = fillColor;
+
+      // Change the current color
+      this.fillColor = ballColor;
+
+      // Run the new thread
+      resetBumper.start();
+    }
 
     // Add to Player Score
     playerScore += 10;

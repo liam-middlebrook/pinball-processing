@@ -133,7 +133,7 @@ void keyPressed()
   }
   if (keyCode == SHIFT)
   {
-    flipper.flip(50000000);
+    flipper.flip(1000000);
   }
 }
 void addWalls()
