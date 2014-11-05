@@ -17,6 +17,9 @@ import org.gamecontrolplus.gui.*;
 import org.gamecontrolplus.*;
 import net.java.games.input.*;
 
+boolean USE_GAMEPAD = true;
+
+// Audio contexts
 AudioContext ac;
 SamplePlayer dingSound;
 Gain gain;
@@ -51,12 +54,15 @@ void setup()
   size(600, 800, P2D);
   smooth();
 
-  // Initialise the ControlIO
-  control = ControlIO.getInstance(this);
+  if (USE_GAMEPAD)
+  {
+    // Initialise the ControlIO
+    control = ControlIO.getInstance(this);
 
-  // Find a device that matches the configuration file
-  gpad = control.getMatchedDevice("gamepad_pinball");
-
+    // Find a device that matches the configuration file
+    gpad = control.getMatchedDevice("gamepad_pinball");
+  }
+  
   // Init box2d world
   box2d = new Box2DProcessing (this);
   box2d.createWorld();
@@ -157,12 +163,12 @@ void drawGame()
   {
     w.render();
   }
-  
+
   for (Bumper b : bumperList)
   {
     b.render();
   }
-  
+
   plunger.render();
 
   for (Flipper f : flipperList)
@@ -234,7 +240,7 @@ void userInput()
       ballCount = 5;
     }
   }
-  
+
   // If the left bumper has been pressed (or the Z key) activate the left flipper
   if ((keyPressed && (key == 'z' || key == 'Z')) || (gpad == null && gpad.getButton("BUMPER_LEFT").pressed()))
   {
@@ -243,7 +249,7 @@ void userInput()
       f.flip(100000, true);
     }
   }
-  
+
   // If the right bumper has been pressed (or the (/-?) key) activate the right flipper
   if ((keyPressed && (key == '/' || key == '?')) || (gpad == null && gpad.getButton("BUMPER_RIGHT").pressed()))
   {
